@@ -35,6 +35,6 @@ jobs:
       # Deploy the app (you can skip this if you don't want automated deployment)
       - name: Deploy to server (example)
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@34.71.235.249 "cd /home/ubuntu/my-node-app && git pull && npm install && pm2 restart index"
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.71.235.249 "cd /home/ubuntu/my-node-app && git pull && npm install && pm2 restart index"
         env:
           NODE_ENV: production
