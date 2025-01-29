@@ -33,8 +33,16 @@ jobs:
         continue-on-error: true  # This will allow the pipeline to proceed even if tests fail
 
       # Deploy the app (you can skip this if you don't want automated deployment)
-      - name: Deploy to server (example)
+      - name: Deploy to server
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@34.71.235.249 "cd /home/ubuntu/my-node-app && git pull && npm install && pm2 restart index"
+          # Write the private key to a file
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
+          # Test the SSH connection (optional but useful for debugging)
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@34.71.235.249 "echo 'SSH connection successful'"
+
+          # Run deployment commands
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@34.71.235.249 "cd /home/ubuntu/my-node-app && git pull && npm install && pm2 restart index"
         env:
           NODE_ENV: production
