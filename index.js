@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send('Hello, Node.js is running on Ubuntu 22.04!');
+    res.send('Hello, Now Node.js is running on Ubuntu 22.04!');
 });
 
 const PORT = 3000;
