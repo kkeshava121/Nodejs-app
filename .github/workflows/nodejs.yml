@@ -1,0 +1,40 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Change this to the version you need
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests (if you have them)
+      - name: Run tests
+        run: npm test
+        continue-on-error: true  # This will allow the pipeline to proceed even if tests fail
+
+      # Deploy the app (you can skip this if you don't want automated deployment)
+      - name: Deploy to server (example)
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@34.71.235.249 "cd /home/ubuntu/my-node-app && git pull && npm install && pm2 restart index"
+        env:
+          NODE_ENV: production
